@@ -150,8 +150,10 @@ alias ssh="ssh -X"
 alias ..="cd .."
 
 #Virtualenv
-export WORKON_HOME=$HOME/web-dev/.virtualenvs
-source /usr/local/bin/virtualenvwrapper.sh
+if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
+		export WORKON_HOME=$HOME/.virtualenvs
+		source /usr/local/bin/virtualenvwrapper.sh
+fi
 
 #Git-completion
 source ~/.scripts/.git-completion.bash
