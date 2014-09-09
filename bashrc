@@ -203,3 +203,6 @@ _completemarks() {
 }
 
 complete -F _completemarks jump unmark
+
+### check for changes to remote bashrc repo (not complete)
+# source ~/.scripts/checkGit.bash
