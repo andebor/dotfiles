@@ -131,8 +131,13 @@ if [ "$HOSTNAME" = "macgyver" ]; then
     HII="\[\033[0;34m\]"
 fi
 
+# Git prompt
+parse_git_branch() {
+	            git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+		              }
+
 # Translates to [ *username* *machinename* /*Path*/ ]
-export PS1="$NM[ $HI\u $HII\h $SI\w$NM ] $IN"
+export PS1="$NM[ $HI\u $HII\h $SI\w$NM\$(parse_git_branch)] $IN"
 
 if [ "$TERM" != "dumb" ]; then
 		export LS_OPTIONS='--color=auto'
@@ -206,3 +211,4 @@ complete -F _completemarks jump unmark
 
 ### check for changes to remote bashrc repo (not complete)
 # source ~/.scripts/checkGit.bash
+
