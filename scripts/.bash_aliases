@@ -13,3 +13,4 @@ alias mountDO='sshfs andebor@andersborud.com:/var/www/ /Users/andebor/web-dev/re
 alias mountFOLK='sshfs andebor@login.stud.ntnu.no:/web/folk/andebor web-dev/folk-mount/'
 alias mailtest='ssh andebor@mailtest.borud.eu'
 alias atlas="ssh andebor@atlas.orakel.ntnu.no"
+alias stud="ssh andebor@login.stud.ntnu.no"

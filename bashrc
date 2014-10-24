@@ -155,7 +155,7 @@ alias ssh="ssh -X"
 alias ..="cd .."
 
 #Virtualenv
-if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
+if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then #check if virtualenvwrapper is installed
 		export WORKON_HOME=$HOME/.virtualenvs
 		source /usr/local/bin/virtualenvwrapper.sh
 fi
@@ -164,8 +164,8 @@ fi
 source ~/.scripts/.git-completion.bash
 
 #Virtualbox-completion
-if [ "$(uname)" == "Linux" ]; then
-	if [ -f /usr/bin/virtualbox ]; then
+if [ "$(uname)" == "Linux" ]; then #check if linux
+	if [ -f /usr/bin/virtualbox ]; then #check if virtualbox installed
 		source ~/.scripts/.virtualbox-completion.bash
 	fi
 fi
@@ -189,11 +189,11 @@ function mark {
 function unmark { 
 		rm -i "$MARKPATH/$1"
 }
-if [ "$(uname)" == "Linux" ]; then
+if [ "$(uname)" == "Linux" ]; then #if linux
 		function marks {
 				ls -l "$MARKPATH" | sed 's/  / /g' | cut -d' ' -f9- | sed 's/ -/\t-/g' && echo
 		}
-elif [ "$(uname)" == "Darwin" ]; then
+elif [ "$(uname)" == "Darwin" ]; then #if mac
 		function marks {
 					\ls -l "$MARKPATH" | tail -n +2 | sed 's/  / /g' | cut -d' ' -f9- | awk -F ' -> ' '{printf "%-10s -> %s\n", $1, $2}'
 		}
@@ -202,28 +202,14 @@ fi
 # Jump - autocomplete 
 _completemarks() {
 	local curw=${COMP_WORDS[COMP_CWORD]}
-	local wordlist=$(find $MARKPATH -type l -printf "%f\n")
+	local wordlist=$(find $MARKPATH -type l -printf "%f\n") #reguire findutils on mac
 	COMPREPLY=($(compgen -W '${wordlist[@]}' -- "$curw"))
 	return 0
 }
 
 complete -F _completemarks jump unmark
 
-### check for changes to remote bashrc repo (not complete)
+### check for changes to remote bashrc repo (NOT COMPLETE)
 # source ~/.scripts/checkGit.bash
 
-### irssi notifier
-
-
-#irssi_notifier() {
-#    ssh andebor@borudweb.com 'echo -n "" > ~/.irssi/fnotify; tail -f ~/.irssi/fnotify' | \
-#            while read heading message; do
-#            url=`echo \"$message\" | grep -Eo 'https?://[^ >]+' | head -1`;
-#
-#            if [ ! "$url" ]; then
-#                terminal-notifier -title "\"$heading\"" -message "\"$message\"" -activate /Applications/iTerm.app;
-#            else
-#                terminal-notifier -title "\"$heading\"" -message "\"$message\"" -open "\"$url\"";
-#            fi;
-#        done
-#    }
+export TERM=xterm-256color
