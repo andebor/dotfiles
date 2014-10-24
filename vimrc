@@ -1,197 +1,162 @@
-color koehler
-set nu
+" vim-sublime - A minimal Sublime Text -like vim experience bundle
+"               http://github.com/grigio/vim-sublime
+" Best view with a 256 color terminal and Powerline fonts
 
-" If KDE, set a readable font
-if has("gui_kde")
-   set guifont=Courier\ 10\ Pitch/10/-1/5/50/0/0/0/1/0
-endif
+set nocompatible
+filetype off
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+Bundle 'gmarik/vundle'
 
-" Clear any existing autocommands..
-autocmd!
+Bundle 'tpope/vim-surround'
+Bundle 'gcmt/breeze.vim'
+Bundle 'kien/ctrlp.vim'
+Bundle 'SirVer/ultisnips'
+Bundle 'tomtom/tcomment_vim'
+Bundle 'bling/vim-airline'
+Bundle 'airblade/vim-gitgutter'
 
-if has('syntax') && (&t_Co > 2)
-  syntax on
-endif
+" Color Themes
+Bundle 'flazz/vim-colorschemes'
+colorscheme Monokai
 
-set history=50
-" remember all of these between sessions, but only 10 search terms; also
-" remember info for 10 files, but never any on removable disks, don't remember
-" marks in files, don't rehighlight old search patterns, and only save up to
-" 100 lines of registers; including @10 in there should restrict input buffer
-" but it causes an error for me:
-set viminfo=/10,'10,r/mnt/zip,r/mnt/floppy,f0,h,\"100
-
-" have command-line completion <Tab> (for filenames, help topics, option names)
-" first list the available options and complete the longest common part, then
-" have further <Tab>s cycle through the possibilities:
-set wildmode=list:longest,full
-
-" use "[RO]" for "[readonly]" to save space in the message line:
-set shortmess+=r
-
-" display the current mode and partially-typed commands in the status line:
-set showmode
-set showcmd
-
-" when using list, keep tabs at their full width and display `arrows':
-"execute 'set listchars+=tab:' . nr2char(187) . nr2char(183)
-" (Character 187 is a right double-chevron, and 183 a mid-dot.)
-
-" have the mouse enabled all the time:
-" set mouse=a
-
-" don't have files trying to override this .vimrc:
-set nomodeline
-
-" * Text Formatting -- General
-
-" don't make it look like there are line breaks where there aren't:
-set nowrap
-
-" identation
-set autoindent
-set smarttab
-set expandtab
-set shiftwidth=4
-"set shiftround
-" Don't put comments on the first coloumn when indenting
-inoremap # #
-
-" Have Q reformat the current paragraph or current selected text
-nnoremap Q gqap
-vnoremap Q gq
-
-" normally don't automatically format `text' as it is typed, IE only do this
-" with comments, at 79 characters:
-" set formatoptions-=t
-" set textwidth=79
-
-
-" enable filetype detection:
-filetype on
-
-if has("autocmd")
+""""""""
+if has('autocmd')
   filetype plugin indent on
 endif
+if has('syntax') && !exists('g:syntax_on')
+  syntax enable
+endif
 
-" for all files
-autocmd FileType * set tabstop=2|set shiftwidth=2|set noexpandtab
+" Use :help 'option' to see the documentation for the given option.
+set autoindent
+set backspace=indent,eol,start
+set complete-=i
+set showmatch
+set showmode
+set smarttab
 
-" for C-like programming, have automatic indentation:
-autocmd FileType c,cpp,slang set cindent
+set nrformats-=octal
+set shiftround
 
-" for actual C (not C++) programming where comments have explicit end
-" characters, if starting a new line in the middle of a comment automatically
-" insert the comment leader characters:
-autocmd FileType c set formatoptions+=ro cindent
+set ttimeout
+set ttimeoutlen=50
 
-" for Perl programming, have things in braces indenting themselves:
-autocmd FileType perl set smartindent
+set incsearch
+" Use <C-L> to clear the highlighting of :set hlsearch.
+if maparg('<C-L>', 'n') ==# ''
+  nnoremap <silent> <C-L> :nohlsearch<CR><C-L>
+endif
 
-" for PHP programming, have things in braces indenting themselves:
-autocmd FileType php set autoindent tabstop=3
+set laststatus=2
+set ruler
+set showcmd
+set wildmenu
 
-" for CSS, also have things in braces indented:
-autocmd FileType css set smartindent
+set autoread
 
-" for HTML, generally format text, but if a long line has been created leave it
-" alone when editing:
-autocmd FileType html set formatoptions+=tl
+set encoding=utf-8
+set tabstop=2 shiftwidth=2 expandtab
+set listchars=tab:▒░,trail:▓
+set list
 
-" for both CSS and HTML, use genuine tab characters for indentation, to make
-" files a few bytes smaller:
-autocmd FileType html,css set noexpandtab tabstop=2
+inoremap <C-U> <C-G>u<C-U>
 
-" in makefiles, don't expand tabs to spaces, since actual tab characters are
-" needed, and have indentation at 8 chars to be sure that all indents are tabs
-" (despite the mappings later):
-autocmd FileType make set noexpandtab shiftwidth=8
-
-" for python
-autocmd FileType python set tabstop=4|set shiftwidth=4|set softtabstop=4|set expandtab
-
-" * Search & Replace
-
-" make searches case-insensitive, unless they contain upper-case letters:
+set number
+set hlsearch
 set ignorecase
 set smartcase
 
-" show the `best match so far' as search strings are typed:
-set incsearch
+" Don't use Ex mode, use Q for formatting
+map Q gq
 
-" page down with <Space> (like in `Lynx', `Mutt', `Pine', `Netscape Navigator',
-" `SLRN', `Less', and `More'); page up with - (like in `Lynx', `Mutt', `Pine'),
-" or <BkSpc> (like in `Netscape Navigator'):
-"noremap <Space> <PageDown>
-"noremap <BS> <PageUp>
-"noremap - <PageUp>
-" [<Space> by default is like l, <BkSpc> like h, and - like k.]
+" In many terminal emulators the mouse works just fine, thus enable it.
+if has('mouse')
+  set mouse=a
+endif
 
-" scroll the window (but leaving the cursor in the same place) by a couple of
-noremap <C-k> 1<C-Y>
-noremap <C-j> 1<C-E>
+" do not history when leavy buffer
+set hidden
 
-noremap <M-k> 1<C-Y>k
-noremap <M-j> 1<C-E>j
-noremap <C-M-k> 1<C-Y>2k
-noremap <C-M-j> 1<C-E>2j
-" [<Ins> by default is like i, and <Del> like x.]
+" FIXME: (broken) ctrl s to save
+noremap  <C-S> :update<CR>
+vnoremap <C-S> <C-C>:update<CR>
+inoremap <C-S> <Esc>:update<CR>
 
-" use <F6> to cycle through split windows (and <Shift>+<F6> to cycle backwards,
-" where possible):
-nnoremap <F6> <C-W>w
-nnoremap <S-F6> <C-W>W
+set nobackup
+set nowritebackup
+set noswapfile
+set fileformats=unix,dos,mac
 
-" use <Ctrl>+N/<Ctrl>+P to cycle through files:
-nnoremap <C-N> :next<CR>
-nnoremap <C-P> :prev<CR>
-" [<Ctrl>+N by default is like j, and <Ctrl>+P like k.]
+" exit insert mode 
+inoremap <C-c> <Esc>
 
-" have % bounce between angled brackets, as well as t'other kinds:
-set matchpairs+=<:>
+set completeopt=menuone,longest,preview
 
-" have <F1> prompt for a help topic, rather than displaying the introduction
-" page, and have it do this from any mode:
-nnoremap <F1> :help<Space>
-vmap <F1> <C-C><F1>
-omap <F1> <C-C><F1>
-map! <F1> <C-C><F1>
+"
+" Plugins config
+"
 
+" CtrlP
+set wildignore+=*/.git/*,*/.hg/*,*/.svn/* 
 
-" * Keystrokes -- Formatting
+" Ultisnip
+" NOTE: <f1> otherwise it overrides <tab> forever
+let g:UltiSnipsExpandTrigger="<f1>"
+let g:UltiSnipsJumpForwardTrigger="<f1>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+let g:did_UltiSnips_vim_after = 1
 
-" have Q reformat the current paragraph (or selected text if there is any):
-nnoremap Q gqap
-vnoremap Q gq
+" vim-airline
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1
 
-" have the usual indentation keystrokes still work in visual mode:
-"vnoremap <C-T> >
-"vnoremap <C-D> <LT>
-"vmap <Tab> <C-T>
-"vmap <S-Tab> <C-D>
+"
+" Basic shortcuts definitions
+"  most in visual mode / selection (v or ⇧ v)
+"
 
-" * Keystrokes -- Insert Mode
+" Find
+map <C-f> /
+" indend / deindent after selecting the text with (⇧ v), (.) to repeat.
+vnoremap <Tab> >
+vnoremap <S-Tab> <
+" comment / decomment & normal comment behavior
+vmap <C-m> gc
+" Disable tComment to escape some entities
+let g:tcomment#replacements_xml={}
+" Text wrap simpler, then type the open tag or ',"
+vmap <C-w> S
+" Cut, Paste, Copy
+vmap <C-x> d
+vmap <C-v> p
+vmap <C-c> y
+" Undo, Redo (broken)
+nnoremap <C-z>  :undo<CR>
+inoremap <C-z>  <Esc>:undo<CR>
+nnoremap <C-y>  :redo<CR>
+inoremap <C-y>  <Esc>:redo<CR>
+" Tabs
+let g:airline_theme='badwolf'
+let g:airline#extensions#tabline#enabled = 1
+nnoremap <C-b>  :tabprevious<CR>
+inoremap <C-b>  <Esc>:tabprevious<CR>i
+nnoremap <C-n>  :tabnext<CR>
+inoremap <C-n>  <Esc>:tabnext<CR>i
+nnoremap <C-t>  :tabnew<CR>
+inoremap <C-t>  <Esc>:tabnew<CR>i
+nnoremap <C-k>  :tabclose<CR>
+inoremap <C-k>  <Esc>:tabclose<CR>i
 
-" allow <BkSpc> to delete line breaks, beyond the start of the current
-" insertion, and over indentations:
-set backspace=eol,start,indent
+" lazy ':'
+map \ :
 
-" have <Tab> (and <Shift>+<Tab> where it works) change the level of
-" indentation:
-"inoremap <Tab> <C-T>
-"inoremap <S-Tab> <C-D>
-" [<Ctrl>+V <Tab> still inserts an actual tab character.]
+let mapleader = ','
+nnoremap <Leader>p :set paste<CR>
+nnoremap <Leader>o :set nopaste<CR>
+noremap  <Leader>g :GitGutterToggle<CR>
 
-"set backupdir=~/.backup
-"set dir=~/.backup
-
-" Hilight everything beoynd line 80
-highlight ExtraWhitespace ctermbg=red guibg=red
-highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-match ExtraWhitespace /\s\+\%#\@<!$/
-match OverLength /\%80v.\+/
-
-" We play utf-8
-set fileencoding=utf-8
-set encoding=utf-8
-set termencoding=utf-8
+" this machine config
+if filereadable(expand("~/.vimrc.local"))
+  source ~/.vimrc.local
+endif
