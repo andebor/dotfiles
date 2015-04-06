@@ -155,7 +155,7 @@ alias ssh="ssh -X"
 alias ..="cd .."
 
 #Virtualenv
-if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then #check if virtualenvwrapper is installed
+if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
 		export WORKON_HOME=$HOME/.virtualenvs
 		source /usr/local/bin/virtualenvwrapper.sh
 fi
@@ -164,8 +164,8 @@ fi
 source ~/.scripts/.git-completion.bash
 
 #Virtualbox-completion
-if [ "$(uname)" == "Linux" ]; then #check if linux
-	if [ -f /usr/bin/virtualbox ]; then #check if virtualbox installed
+if [ "$(uname)" == "Linux" ]; then
+	if [ -f /usr/bin/virtualbox ]; then
 		source ~/.scripts/.virtualbox-completion.bash
 	fi
 fi
@@ -189,11 +189,11 @@ function mark {
 function unmark { 
 		rm -i "$MARKPATH/$1"
 }
-if [ "$(uname)" == "Linux" ]; then #if linux
+if [ "$(uname)" == "Linux" ]; then
 		function marks {
 				ls -l "$MARKPATH" | sed 's/  / /g' | cut -d' ' -f9- | sed 's/ -/\t-/g' && echo
 		}
-elif [ "$(uname)" == "Darwin" ]; then #if mac
+elif [ "$(uname)" == "Darwin" ]; then
 		function marks {
 					\ls -l "$MARKPATH" | tail -n +2 | sed 's/  / /g' | cut -d' ' -f9- | awk -F ' -> ' '{printf "%-10s -> %s\n", $1, $2}'
 		}
@@ -202,14 +202,13 @@ fi
 # Jump - autocomplete 
 _completemarks() {
 	local curw=${COMP_WORDS[COMP_CWORD]}
-	local wordlist=$(find $MARKPATH -type l -printf "%f\n") #reguire findutils on mac
+	local wordlist=$(find $MARKPATH -type l -printf "%f\n")
 	COMPREPLY=($(compgen -W '${wordlist[@]}' -- "$curw"))
 	return 0
 }
 
 complete -F _completemarks jump unmark
 
-### check for changes to remote bashrc repo (NOT COMPLETE)
+### check for changes to remote bashrc repo (not complete)
 # source ~/.scripts/checkGit.bash
 
-export TERM=xterm-256color
