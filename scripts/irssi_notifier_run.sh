@@ -1,7 +1,7 @@
 #!/bin/sh
 
 irssi_notifier() {
-   	ssh andebor@borudweb.com 'echo -n "" > ~/.irssi/fnotify; tail -f ~/.irssi/fnotify' | \
+   	ssh andebor@$ROCKY 'echo -n "" > ~/.irssi/fnotify; tail -f ~/.irssi/fnotify' | \
        	while read heading message; do
            	url=`echo \"$message\" | grep -Eo 'https?://[^ >]+' | head -1`;
 
