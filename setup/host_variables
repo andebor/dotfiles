@@ -1,0 +1,5 @@
+# these variables will be sourced by oh-my-zsh and can be used within aliases and functions.
+# Examples:
+#
+# HOSTNAME1="example1.com"
+# HOSTNAME2="example2.com"
