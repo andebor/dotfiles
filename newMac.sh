@@ -9,7 +9,7 @@
 ##########  DEFAULT INSTALL CONFIG  #############
 
 #brew software to be installed
-BREWS="git coreutils wget z caskroom/cask/brew-cask node"
+BREWS="coreutils wget z caskroom/cask/brew-cask node"
 
 # pip packages to be installed
 PIPS="virtualenv setuptools autoenv"
@@ -77,18 +77,6 @@ fi
 echo -e "${yellow}You might need to input your sudo password${NC}"
 sudo -v
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
-
-#install xcode - https://sector7g.be/posts/installing-xcode-command-line-tools-through-terminal-without-any-user-interaction
-# echo "Checking if xcode is installed.."
-# if ! which make > /dev/null; then
-#   echo -e "${yellow}Xcode not installed. Installing now...${NC}"
-#   echo "Creating file to override xcode agreement prompt."
-#   touch /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
-#   echo "Running softwareupdate to install xcode."
-#   sudo softwareupdate -i -a
-# else
-#   echo -e "${green}Xcode is already installed.${NC}"  
-
 
 # Change hostname
 read -p "Would you like to set your computer name (as done via System Preferences >> Sharing)?  (y/n)" response
