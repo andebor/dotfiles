@@ -5,6 +5,7 @@
 #TODO:
 # Find out how to install xcode in script
 # Debian version
+# fix set hostname - complains about scutil check yosemite syntax
 
 ##########  DEFAULT INSTALL CONFIG  #############
 
@@ -79,16 +80,16 @@ sudo -v
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 # Change hostname
-read -p "Would you like to set your computer name (as done via System Preferences >> Sharing)?  (y/n)" response
-if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]; then
-  echo "What would you like it to be?"
-  read COMPUTER_NAME
-  sudo scutil --set ComputerName $COMPUTER_NAME
-  sudo scutil --set HostName $COMPUTER_NAME
-  sudo scutil --set LocalHostName $COMPUTER_NAME
-  sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string $COMPUTER_NAME
-  echo -e "${green}Computer name was changed to $COMPUTER_NAME${NC}"
-fi
+# read -p "Would you like to set your computer name (as done via System Preferences >> Sharing)?  (y/n)" response
+# if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]; then
+#   echo "What would you like it to be?"
+#   read COMPUTER_NAME
+#   sudo scutil --set ComputerName $COMPUTER_NAME
+#   sudo scutil --set HostName $COMPUTER_NAME
+#   sudo scutil --set LocalHostName $COMPUTER_NAME
+#   sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string $COMPUTER_NAME
+#   echo -e "${green}Computer name was changed to $COMPUTER_NAME${NC}"
+# fi
 
 #Install homebrew
 echo "Checking if Homebrew is installed.."
@@ -104,12 +105,12 @@ fi
 
 #Install homebrew packages
 echo "Verifying that all brew packages are installed.."
-sudo brew install ${BREWS}
+brew install ${BREWS}
 echo -e "${green}OK${NC}"
 
 #Install desktop software
 echo "Verifying that all cask packages are installed.."
-sudo brew cask install ${CASKS}
+brew cask install ${CASKS}
 echo -e "${green}OK${NC}"
 
 #Install zsh and oh-my-zsh
@@ -137,7 +138,9 @@ fi
 #Set colortheme in iterm2
 read -p "Do you want to change the color theme in iterm2 to Solarize? (y/n)" response </dev/tty
 if [[  $response =~ ^([yY][eE][sS]|[yY])$ ]]; then
-    mv ~/Library/Preferences/com.googlecode.iterm2.plist ~/Library/Preferences/com.googlecode.iterm2.plist.old
+    if [[ -f ~/Library/Preferences/com.googlecode.iterm2.plist ]]; then
+        mv ~/Library/Preferences/com.googlecode.iterm2.plist ~/Library/Preferences/com.googlecode.iterm2.plist.old
+    fi    
     cp $MAIN_DIR/setup/com.googlecode.iterm2.plist ~/Library/Preferences/com.googlecode.iterm2.plist
     plutil -convert binary1 ~/Library/Preferences/com.googlecode.iterm2.plist
     defaults read com.googlecode.iterm2
@@ -206,12 +209,13 @@ defaults write com.google.Chrome.canary AppleEnableSwipeNavigateWithScrolls -boo
 
 
 # Make symlinks for zshrc, dircolors
-current_time=$(date "+%Y-%m-%d.%H:%M:%S")
+current_time=$(date "+%Y-%m-%d_%H:%M:%S")
 
 read -p "Do you want to put symlinks for your dotfiles in the your home dir? (y/n)" response </dev/tty
 if [[  $response =~ ^([yY][eE][sS]|[yY])$ ]]; then
+    mkdir -p ~/dotfiles_${current_time}
     for file in $FILES; do
-        mv ~/.$file ~/dotfiles_${current_time}/ # TODO: should add timestamp to foldername
+        mv ~/.$file ~/dotfiles_${current_time}/
         echo "Creating symlink to $file in home directory."
         ln -s $MAIN_DIR/$file ~/.$file
     done
@@ -226,7 +230,7 @@ fi
 #Ask user for reboot
 echo "The computer needs to be rebooted before all the changes will take effect.${yellow}"
 read -p "Do you want to reboot now? (y/n)" response </dev/tty
-if [[ ! $response =~ ^([yY][eE][sS]|[yY])$ ]]; then
+if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]; then
     echo -e "${NC}Rebooting..."
     sudo shutdown -r now
 else
