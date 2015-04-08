@@ -227,6 +227,11 @@ if [[ ! -f ~/.host_variables ]]; then
     cp $MAIN_DIR/setup/host_variables ~/.host_variables
 fi
 
+if [[ ! -f ~/.vim/colors/solarized.vim ]]; then
+    mkdir -p ~/.vim/colors/
+    cp $MAIN_DIR/setup/solarized.vim ~/.vim/colors/solarized.vim
+fi
+
 #Ask user for reboot
 echo "The computer needs to be rebooted before all the changes will take effect.${yellow}"
 read -p "Do you want to reboot now? (y/n)" response </dev/tty
