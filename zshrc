@@ -45,7 +45,7 @@ ENABLE_CORRECTION="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(brew django git npm pip python screen sublime sudo virtualenvwrapper jump virtualenv-prompt)
+plugins=(brew django git npm pip python screen sublime sudo jump autoenv virtualenv-prompt)
 
 # User configuration
 
@@ -98,6 +98,6 @@ else
 fi
 
 # source scripts in dotfiles
-for file in ~/.scripts/source*; do
+for file in ~/.scripts/source/*; do
     source $file
 done
