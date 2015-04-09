@@ -6,6 +6,8 @@
 # Find out how to install xcode in script
 # Debian version
 # fix set hostname - complains about scutil check yosemite syntax
+# zshrc doesnt source .script/source
+# fix virtualenv prompt
 
 ##########  DEFAULT INSTALL CONFIG  #############
 
@@ -123,7 +125,7 @@ else
     echo -e "${yellow}Oh-My-Zsh is already installed.${NC}"
 fi
 
-# Syntax highlighting
+# Syntax highlighting plugin
 echo -e "${yellow}Checking if syntax highlighting is installed.."
 if [ ! -d ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting ]; then
     echo -e "Syntax highlighting not installed. Installing now...${NC}"
@@ -133,6 +135,32 @@ if [ ! -d ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting ]; then
 
 else
     echo -e "${green}oh-my-zsh already installed${NC}"
+fi
+
+# virtualenv prompt plugin
+echo -e "${yellow}Checking if virtualenv-prompt is installed.."
+if [ ! -d ~/.oh-my-zsh/custom/plugins/oh-my-zsh-virtualenv-prompt ]; then
+    echo -e "virtualenv-prompt not installed. Installing now...${NC}"
+    cd ~/.oh-my-zsh/custom/plugins && git clone git://github.com/tonyseek/oh-my-zsh-virtualenv-prompt.git 
+    cd $MAIN_DIR
+    echo -e "${green}OK${NC}"
+
+else
+    echo -e "${green}virtualenv-prompt already installed${NC}"
+fi
+
+# Install custom pygmalion-theme
+echo -e "${yellow}Checking if custom pygmalion-theme is installed.."
+if [ ! -f ~/.oh-my-zsh/custom/themes/pygmalion.zsh-theme ]; then
+    echo -e "custom pygmalion-theme not installed. Installing now...${NC}"
+    if [[ ! -d ~/.oh-my-zsh/custom/themes ]]; then
+        mkdir -p ~/.oh-my-zsh/custom/themes
+    fi
+    cp $MAIN_DIR/setup/pygmalion.zsh-theme ~/.oh-my-zsh/custom/themes/pygmalion.zsh-theme
+    echo -e "${green}OK${NC}"
+
+else
+    echo -e "${green}custom pygmalion-theme already installed${NC}"
 fi
 
 #Set colortheme in iterm2
