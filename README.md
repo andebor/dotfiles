@@ -1,8 +1,7 @@
 dotfiles
 ========
-
-config files for zsh, vim etc.
-
+**This script will set up your new OS X install with standard developer tools and everyday software that I use.**
+![screenshot](http://i.imgur.com/cPvtSfb.png)
 
 ## Installation
 Open a terminal window:
@@ -25,3 +24,16 @@ cd dotfiles
 cat newMac.sh | sh
 ```
 Follow the instructions from the installer.
+
+## Custom installation
+
+To customize which applications to install, run the script with -c followed by the path to your config file.
+See the example file, for more information.
+
+```
+chmod +x ~/dotfiles/newMac.sh
+
+cd ~/dotfiles
+
+./newMac.sh -c /path/to/custom_config
+```
