@@ -6,8 +6,8 @@
 # Find out how to install xcode in script
 # Debian version
 # fix set hostname - complains about scutil check yosemite syntax
-# zshrc doesnt source .script/source
-# fix virtualenv prompt
+# make echo look alike on both 10.9 and 10.10
+
 
 ##########  DEFAULT INSTALL CONFIG  #############
 

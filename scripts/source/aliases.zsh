@@ -1,3 +1,4 @@
+alias cd..='cd ..'
 alias borudweb='ssh andebor@$ROCKY'
 alias gina='ssh andebor@$GINA'
 alias poseidon='ssh andebor@$POSEIDON'
