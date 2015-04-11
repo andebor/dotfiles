@@ -156,7 +156,7 @@ if [ ! -f ~/.oh-my-zsh/custom/themes/pygmalion.zsh-theme ]; then
     if [[ ! -d ~/.oh-my-zsh/custom/themes ]]; then
         mkdir -p ~/.oh-my-zsh/custom/themes
     fi
-    cp $MAIN_DIR/setup/pygmalion.zsh-theme ~/.oh-my-zsh/custom/themes/pygmalion.zsh-theme
+    ln -s $MAIN_DIR/setup/pygmalion.zsh-theme ~/.oh-my-zsh/custom/themes/pygmalion.zsh-theme
     echo -e "${green}OK${NC}"
 
 else
@@ -255,9 +255,10 @@ if [[ ! -f ~/.host_variables ]]; then
     cp $MAIN_DIR/setup/host_variables ~/.host_variables
 fi
 
+# symlink solarized vim theme
 if [[ ! -f ~/.vim/colors/solarized.vim ]]; then
     mkdir -p ~/.vim/colors/
-    cp $MAIN_DIR/setup/solarized.vim ~/.vim/colors/solarized.vim
+    ln -s $MAIN_DIR/setup/solarized.vim ~/.vim/colors/solarized.vim
 fi
 
 #Ask user for reboot
