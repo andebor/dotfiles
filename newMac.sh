@@ -141,7 +141,7 @@ fi
 echo -e "${yellow}Checking if virtualenv-prompt is installed.."
 if [ ! -d ~/.oh-my-zsh/custom/plugins/oh-my-zsh-virtualenv-prompt ]; then
     echo -e "virtualenv-prompt not installed. Installing now...${NC}"
-    cd ~/.oh-my-zsh/custom/plugins && git clone git://github.com/tonyseek/oh-my-zsh-virtualenv-prompt.git 
+    cd ~/.oh-my-zsh/custom/plugins && git clone git://github.com/tonyseek/oh-my-zsh-virtualenv-prompt.git virtualenv-prompt
     cd $MAIN_DIR
     echo -e "${green}OK${NC}"
 
