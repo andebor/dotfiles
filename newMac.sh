@@ -3,7 +3,6 @@
 # Script to install my everyday terminal dependencies and shell settings on a new mac
 
 #TODO:
-# Find out how to install xcode in script
 # Debian version
 # fix set hostname - complains about scutil check yosemite syntax
 # make echo look alike on both 10.9 and 10.10
@@ -51,17 +50,19 @@ echo ""
 echo -e "This installation will install the following software:"
 echo -e "------------------------------------------------------"
 echo -e "Terminal apps/Homebrew/pip"
-for brew in $BREWS; do
-    echo -e "-- "$brew
-done
 for pip in $PIPS; do
     echo -e "-- "$pip
 done
-echo -e ""
-echo -e "Desktop applications (with cask)"
-for cask in $CASKS; do
-    echo -e "-- "$cask
-done
+if [ "$(uname)" == "Darwin" ]; then
+    for brew in $BREWS; do
+        echo -e "-- "$brew
+    done
+    echo -e ""
+    echo -e "Desktop applications (with cask)"
+    for cask in $CASKS; do
+        echo -e "-- "$cask
+    done
+fi
 echo -e "------------------------------------------------------"
 echo -e "To customize which applications to install, run the script with -c followed by the path to your config file."
 echo -e "See the example file, for more information."
@@ -70,7 +71,7 @@ echo ""
 echo -e "${red}Make sure you are connected to the internet before you procede!${NC}"
 echo ""
 #check if user want to continue
-read -p "Do you want to procede with the installation? (y/n)" response </dev/tty
+read -p "Do you want to procede with the installation? (y/n)" -n 1 response </dev/tty
 if [[ ! $response =~ ^([yY][eE][sS]|[yY])$ ]]; then
     echo "Exiting installation..."
     exit 0
@@ -93,27 +94,30 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 #   echo -e "${green}Computer name was changed to $COMPUTER_NAME${NC}"
 # fi
 
-#Install homebrew
-echo "Checking if Homebrew is installed.."
-if ! which brew > /dev/null; then
-    echo -e "${yellow}Homebrew not installed. Installing now..."
-    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-    echo -e "Running brew doctor...${NC}"
-    brew doctor
+if [ "$(uname)" == "Darwin" ]; then
+
+    #Install homebrew
+    echo "Checking if Homebrew is installed.."
+    if ! which brew > /dev/null; then
+        echo -e "${yellow}Homebrew not installed. Installing now..."
+        ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+        echo -e "Running brew doctor...${NC}"
+        brew doctor
+        echo -e "${green}OK${NC}"
+    else
+        echo -e "${green}Homebrew is already installed.${NC}"
+    fi
+
+    #Install homebrew packages
+    echo "Verifying that all brew packages are installed.."
+    brew install ${BREWS}
     echo -e "${green}OK${NC}"
-else
-    echo -e "${green}Homebrew is already installed.${NC}"
+
+    #Install desktop software
+    echo "Verifying that all cask packages are installed.."
+    brew cask install ${CASKS}
+    echo -e "${green}OK${NC}"
 fi
-
-#Install homebrew packages
-echo "Verifying that all brew packages are installed.."
-brew install ${BREWS}
-echo -e "${green}OK${NC}"
-
-#Install desktop software
-echo "Verifying that all cask packages are installed.."
-brew cask install ${CASKS}
-echo -e "${green}OK${NC}"
 
 #Install zsh and oh-my-zsh
 echo -e "${yellow}Checking if oh-my-zsh is installed.. ${NC}"
@@ -163,18 +167,6 @@ else
     echo -e "${green}custom pygmalion-theme already installed${NC}"
 fi
 
-#Set colortheme in iterm2
-read -p "Do you want to change the color theme in iterm2 to Solarize? (y/n)" response </dev/tty
-if [[  $response =~ ^([yY][eE][sS]|[yY])$ ]]; then
-    if [[ -f ~/Library/Preferences/com.googlecode.iterm2.plist ]]; then
-        mv ~/Library/Preferences/com.googlecode.iterm2.plist ~/Library/Preferences/com.googlecode.iterm2.plist.old
-    fi    
-    cp $MAIN_DIR/setup/com.googlecode.iterm2.plist ~/Library/Preferences/com.googlecode.iterm2.plist
-    plutil -convert binary1 ~/Library/Preferences/com.googlecode.iterm2.plist
-    defaults read com.googlecode.iterm2
-    echo -e "${green}iTerm2 is now solarized!${NC}"
-fi
-
 #install pip
 echo "Checking if Pip is installed.."
 if ! which pip > /dev/null; then
@@ -190,51 +182,65 @@ echo "Verifying that all pip packages are installed."
 sudo pip install ${PIPS}
 echo -e "${green}OK${NC}"
 
-# Do OS X modifications
-echo "Doing OS X modifications"
+if [ "$(uname)" == "Darwin" ]; then
 
-# Display full POSIX path as Finder window title
-defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
+    # Do OS X modifications
+    echo "Doing OS X modifications"
 
-# Finder: allow text selection in Quick Look
-defaults write com.apple.finder QLEnableTextSelection -bool true
+    # Display full POSIX path as Finder window title
+    defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
 
-# Finder: show all filename extensions
-defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+    # Finder: allow text selection in Quick Look
+    defaults write com.apple.finder QLEnableTextSelection -bool true
 
-# Finder: show path bar
-defaults write com.apple.finder ShowPathbar -bool true
+    # Finder: show all filename extensions
+    defaults write NSGlobalDomain AppleShowAllExtensions -bool true
 
-# When performing a search, search the current folder by default
-defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
+    # Finder: show path bar
+    defaults write com.apple.finder ShowPathbar -bool true
 
-# Avoid creating .DS_Store files on network volumes
-defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
+    # When performing a search, search the current folder by default
+    defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
 
-# Automatically quit printer app once the print jobs complete
-defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true
+    # Avoid creating .DS_Store files on network volumes
+    defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
 
-# Expanding the save panel by default
-defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
-defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
-defaults write NSGlobalDomain PMPrintingExpandedStateForPrint2 -bool true
+    # Automatically quit printer app once the print jobs complete
+    defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true
 
-# Check for software updates daily, not just once per week
-defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 1
+    # Expanding the save panel by default
+    defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
+    defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
+    defaults write NSGlobalDomain PMPrintingExpandedStateForPrint2 -bool true
 
-# Use column view in all Finder windows by default
-defaults write com.apple.finder FXPreferredViewStyle Clmv
+    # Check for software updates daily, not just once per week
+    defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 1
 
-# Prevent Time Machine from prompting to use new hard drives as backup volume
-defaults write com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true
+    # Use column view in all Finder windows by default
+    defaults write com.apple.finder FXPreferredViewStyle Clmv
 
-# Disable local Time Machine backups (This can take up a ton of SSD space on <128GB SSDs)
-hash tmutil &> /dev/null && sudo tmutil disablelocal
+    # Prevent Time Machine from prompting to use new hard drives as backup volume
+    defaults write com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true
 
-# Disable the all too sensitive backswipe in chrome
-defaults write com.google.Chrome AppleEnableSwipeNavigateWithScrolls -bool false
-defaults write com.google.Chrome.canary AppleEnableSwipeNavigateWithScrolls -bool false
+    # Disable local Time Machine backups (This can take up a ton of SSD space on <128GB SSDs)
+    hash tmutil &> /dev/null && sudo tmutil disablelocal
 
+    # Disable the all too sensitive backswipe in chrome
+    defaults write com.google.Chrome AppleEnableSwipeNavigateWithScrolls -bool false
+    defaults write com.google.Chrome.canary AppleEnableSwipeNavigateWithScrolls -bool false
+
+    #Set colortheme in iterm2
+    read -p "Do you want to change the color theme in iterm2 to Solarize? (y/n)" response </dev/tty
+    if [[  $response =~ ^([yY][eE][sS]|[yY])$ ]]; then
+        if [[ -f ~/Library/Preferences/com.googlecode.iterm2.plist ]]; then
+            mv ~/Library/Preferences/com.googlecode.iterm2.plist ~/Library/Preferences/com.googlecode.iterm2.plist.old
+        fi    
+        cp $MAIN_DIR/setup/com.googlecode.iterm2.plist ~/Library/Preferences/com.googlecode.iterm2.plist
+        plutil -convert binary1 ~/Library/Preferences/com.googlecode.iterm2.plist
+        defaults read com.googlecode.iterm2
+        echo -e "${green}iTerm2 is now solarized!${NC}"
+    fi
+fi
 
 # Make symlinks for zshrc, dircolors
 current_time=$(date "+%Y-%m-%d_%H:%M:%S")
