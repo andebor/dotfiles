@@ -45,7 +45,7 @@ ENABLE_CORRECTION="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-if [ "$(uname)" == "Darwin" ]; then
+if [ "$(uname)" '==' "Darwin" ]; then
     plugins=(brew django git npm pip python screen sublime sudo jump virtualenv-prompt zsh-syntax-highlighting)
 else
     plugins=(django git npm pip python screen sudo jump virtualenv-prompt zsh-syntax-highlighting)
@@ -82,7 +82,7 @@ fi
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-if [ "$(uname)" == "Darwin" ]; then
+if [ "$(uname)" '==' "Darwin" ]; then
     # source z
     . `brew --prefix`/etc/profile.d/z.sh
 
