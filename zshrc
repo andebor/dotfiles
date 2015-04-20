@@ -45,8 +45,11 @@ ENABLE_CORRECTION="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(brew django git npm pip python screen sublime sudo jump virtualenv-prompt zsh-syntax-highlighting)
-
+if [ "$(uname)" == "Darwin" ]; then
+    plugins=(brew django git npm pip python screen sublime sudo jump virtualenv-prompt zsh-syntax-highlighting)
+else
+    plugins=(django git npm pip python screen sudo jump virtualenv-prompt zsh-syntax-highlighting)
+fi
 # User configuration
 
 export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin:/usr/texbin"
@@ -79,13 +82,16 @@ fi
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# source z
-. `brew --prefix`/etc/profile.d/z.sh
+if [ "$(uname)" == "Darwin" ]; then
+    # source z
+    . `brew --prefix`/etc/profile.d/z.sh
 
 
-# dircolors
-eval `gdircolors ~/.scripts/.dir_colors`
-alias ls='gls --color'
+    # dircolors
+    eval `gdircolors ~/.scripts/.dir_colors`
+    alias ls='gls --color'
+fi
+
 zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
 autoload -Uz compinit
 compinit
