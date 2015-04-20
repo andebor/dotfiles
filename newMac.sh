@@ -267,12 +267,16 @@ if [[ ! -f ~/.vim/colors/solarized.vim ]]; then
     ln -s $MAIN_DIR/setup/solarized.vim ~/.vim/colors/solarized.vim
 fi
 
-#Ask user for reboot
-echo "The computer needs to be rebooted before all the changes will take effect.${yellow}"
-read -p "Do you want to reboot now? (y/n)" response </dev/tty
-if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]; then
-    echo -e "${NC}Rebooting..."
-    sudo shutdown -r now
+if [ "$(uname)" == "Darwin" ]; then
+    #Ask user for reboot
+    echo "The computer needs to be rebooted before all the changes will take effect.${yellow}"
+    read -p "Do you want to reboot now? (y/n)" response </dev/tty
+    if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]; then
+        echo -e "${NC}Rebooting..."
+        sudo shutdown -r now
+    else
+        echo -e "${green}Installation is finished. Please restart as soon as possible.${NC}"
+    fi
 else
-    echo -e "${green}Installation is finished. Please restart as soon as possible.${NC}"
+    echo -e "${green}Installation is finished. Please open a new session for all changes to take affect.${NC}"
 fi
