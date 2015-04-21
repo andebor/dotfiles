@@ -90,6 +90,8 @@ if [ "$(uname)" '==' "Darwin" ]; then
     # dircolors
     eval `gdircolors ~/.scripts/.dir_colors`
     alias ls='gls --color'
+
+    export LC_CTYPE="UTF-8"
 fi
 
 zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
@@ -110,3 +112,4 @@ done
 
 # source autoenv
 source /usr/local/bin/activate.sh
+
