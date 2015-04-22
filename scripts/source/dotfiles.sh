@@ -1,10 +1,6 @@
 #! /bin/zsh
 
 function dotfiles() {
-    #print usage without arguments
-    local cur prev opts
-
-
     if [[ $# -eq 0 ]];then
         cat << EOF
 Usage: dotfiles command option
