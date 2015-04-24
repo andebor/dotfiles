@@ -31,9 +31,9 @@ To customize which applications to install, run the script with -c followed by t
 See the example file, for more information.
 
 ```
-chmod +x ~/dotfiles/newMac.sh
+chmod +x ~/dotfiles/install.sh
 
 cd ~/dotfiles
 
-./newMac.sh -c /path/to/custom_config
+./install.sh -c /path/to/custom_config
 ```
