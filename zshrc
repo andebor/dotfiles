@@ -53,6 +53,10 @@ fi
 # User configuration
 
 export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin:/usr/texbin"
+
+#GNU-sed on os x
+export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
+MANPATH="/usr/local/opt/gnu-sed/libexec/gnuman:$MANPATH"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
