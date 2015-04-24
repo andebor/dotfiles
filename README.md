@@ -21,7 +21,7 @@ cd dotfiles
 ```
 
 ```
-cat newMac.sh | sh
+cat install.sh | sh
 ```
 Follow the instructions from the installer.
 
