@@ -54,9 +54,6 @@ fi
 
 export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin:/usr/texbin"
 
-#GNU-sed on os x
-export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
-MANPATH="/usr/local/opt/gnu-sed/libexec/gnuman:$MANPATH"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
@@ -94,6 +91,14 @@ if [ "$(uname)" '==' "Darwin" ]; then
     # dircolors
     eval `gdircolors ~/.scripts/.dir_colors`
     alias ls='gls --color'
+
+    #GNU-sed on os x
+    export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
+    MANPATH="/usr/local/opt/gnu-sed/libexec/gnuman:$MANPATH"
+
+    # go path
+    export PATH=$PATH:/usr/local/opt/go/libexec/bin
+    export GOPATH=$HOME/Google_Drive/web-dev/go
 
     export LC_CTYPE="UTF-8"
 fi
