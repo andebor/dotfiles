@@ -11,7 +11,7 @@
 ##########  DEFAULT INSTALL CONFIG  #############
 
 #brew software to be installed
-BREWS="coreutils wget z caskroom/cask/brew-cask node gnu-sed"
+BREWS="coreutils wget z caskroom/cask/brew-cask node gnu-sed go hg"
 
 # pip packages to be installed
 PIPS="virtualenv setuptools autoenv"
