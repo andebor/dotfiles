@@ -127,6 +127,7 @@ if ! which curl > /dev/null; then
 	echo -e "${green}OK${NC}"
 else
 	echo -e "${green}Curl is already installed.${NC}"
+fi
 
 #Install zsh and oh-my-zsh
 echo -e "${yellow}Checking if oh-my-zsh is installed.. ${NC}"
