@@ -119,6 +119,15 @@ if [ "$(uname)" == "Darwin" ]; then
     echo -e "${green}OK${NC}"
 fi
 
+#check is curl is installed
+echo -e "${yellow}Checking if curl is installed..${NC}"
+if ! which curl > /dev/null; then
+	echo -e "${yellow}Curl not installed. Installing now...${NC}"
+	sudo apt-get install curl
+	echo -e "${green}OK${NC}"
+else
+	echo -e "${green}Curl is already installed.${NC}"
+
 #Install zsh and oh-my-zsh
 echo -e "${yellow}Checking if oh-my-zsh is installed.. ${NC}"
 if [ ! -d ~/.oh-my-zsh ]; then
@@ -171,7 +180,9 @@ fi
 echo "Checking if Pip is installed.."
 if ! which pip > /dev/null; then
     echo -e "${yellow}Pip not installed. Installing now...${NC}"
-    sudo easy_install pip
+    curl -O  https://bootstrap.pypa.io/get-pip.py
+		sudo python get-pip.py
+		rm get-pip.py
     echo -e "${green}OK${NC}"
 else
     echo -e "${green}Pip is already installed.${NC}"
