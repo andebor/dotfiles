@@ -11,7 +11,6 @@ alias hideHidden='defaults write com.apple.finder AppleShowAllFiles NO; killall 
 alias mountDO='sshfs andebor@$RAMBO:/var/www/ /Users/andebor/web-dev/remote-mount/ -ocache=no'
 alias mountFOLK='sshfs andebor@$STUD:/web/folk/andebor web-dev/folk-mount/'
 alias vm='ssh andebor@$VM'
-alias atlas='ssh -p 2469 andebor@$ATLAS'
 alias stud='ssh andebor@$STUD'
 alias publicip='curl http://api.ipify.org'
 alias cd...='cd ../..'
