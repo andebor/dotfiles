@@ -100,7 +100,13 @@ if [ "$(uname)" '==' "Darwin" ]; then
     export PATH=$PATH:/usr/local/opt/go/libexec/bin
     export GOPATH=$HOME/Google_Drive/web-dev/go
 
+		# garmin connect iq
+		export PATH=$PATH:/$HOME/dev/connectiq-sdk-mac-1.1.3/bin
+
     export LC_CTYPE="UTF-8"
+
+		# Docker
+		eval "$(docker-machine env default)"
 fi
 
 zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
