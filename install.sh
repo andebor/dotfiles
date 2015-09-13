@@ -132,7 +132,7 @@ if [ "$(uname)" == "Linux" ]; then
 
     #check if zsh is installed
     echo -e "${yellow}Checking if ZSH is installed..${NC}"
-    if ! which zsh --version > /dev/null; then
+    if ! which zsh > /dev/null; then
         echo -e "${yellow}ZSH not installed. Installing now...${NC}"
         sudo apt-get -y install zsh
         echo -e "${green}OK${NC}"
