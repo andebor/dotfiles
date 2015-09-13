@@ -119,14 +119,26 @@ if [ "$(uname)" == "Darwin" ]; then
     echo -e "${green}OK${NC}"
 fi
 
-#check is curl is installed
-echo -e "${yellow}Checking if curl is installed..${NC}"
-if ! which curl > /dev/null; then
-	echo -e "${yellow}Curl not installed. Installing now...${NC}"
-	sudo apt-get install curl
-	echo -e "${green}OK${NC}"
-else
-	echo -e "${green}Curl is already installed.${NC}"
+if [ "$(uname)" == "Linux" ]; then
+    #check is curl is installed
+    echo -e "${yellow}Checking if curl is installed..${NC}"
+    if ! which curl > /dev/null; then
+    	echo -e "${yellow}Curl not installed. Installing now...${NC}"
+    	sudo apt-get -y install curl
+    	echo -e "${green}OK${NC}"
+    else
+    	echo -e "${green}Curl is already installed.${NC}"
+    fi
+
+    #check if zsh is installed
+    echo -e "${yellow}Checking if ZSH is installed..${NC}"
+    if ! which zsh --version > /dev/null; then
+        echo -e "${yellow}ZSH not installed. Installing now...${NC}"
+        sudo apt-get -y install zsh
+        echo -e "${green}OK${NC}"
+    else
+        echo -e "${green}ZSH is already installed.${NC}"
+    fi
 fi
 
 #Install zsh and oh-my-zsh
