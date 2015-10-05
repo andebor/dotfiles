@@ -107,6 +107,9 @@ if [ "$(uname)" '==' "Darwin" ]; then
 
 		# Docker
 		eval "$(docker-machine env default)"
+
+		#send_sms i path
+		export PATH=$HOME/dotfiles/scripts/path:$PATH
 fi
 
 zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
