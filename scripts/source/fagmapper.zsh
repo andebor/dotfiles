@@ -1,5 +1,5 @@
 #!/bin/bash
-coursedir=~/Google\ Drive/ntnu
+coursedir=~/Google_Drive/ntnu
 
 function newCourse() {
 	change=0
