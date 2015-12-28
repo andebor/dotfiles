@@ -113,6 +113,9 @@ if [ "$(uname)" == "Darwin" ]; then
     brew install ${BREWS}
     echo -e "${green}OK${NC}"
 
+		#Set option for cask, making sure app symlinks are put in /Applications
+		export HOMEBREW_CASK_OPTS="--appdir=/Applications"
+
     #Install desktop software
     echo "Verifying that all cask packages are installed.."
     brew cask install ${CASKS}

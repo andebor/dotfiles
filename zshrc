@@ -110,6 +110,9 @@ if [ "$(uname)" '==' "Darwin" ]; then
 
 		#send_sms i path
 		export PATH=$HOME/dotfiles/scripts/path:$PATH
+
+		# Cask symlink directory
+		export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 fi
 
 zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
