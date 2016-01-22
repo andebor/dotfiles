@@ -192,6 +192,13 @@ else
     echo -e "${green}custom pygmalion-theme already installed${NC}"
 fi
 
+# Create symbolic link for variables in .oh-my-zsh/custom
+echo -e "Creating symbolic link for environment variables"
+if [ ! -f ~/.oh-my-zsh/custom/variables.zsh ]; then
+	ln -s $MAIN_DIR/setup/variables.zsh ~/.oh-my-zsh/custom/variables.zsh
+  echo -e "${green}OK${NC}"
+fi
+
 #install pip
 echo "Checking if Pip is installed.."
 if ! which pip > /dev/null; then
