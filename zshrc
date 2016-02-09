@@ -106,7 +106,7 @@ if [ "$(uname)" '==' "Darwin" ]; then
     export LC_CTYPE="UTF-8"
 
 		# Docker
-		eval "$(docker-machine env default)"
+		#eval "$(docker-machine env default)"
 
 		#send_sms i path
 		export PATH=$HOME/dotfiles/scripts/path:$PATH
