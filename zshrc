@@ -113,6 +113,9 @@ if [ "$(uname)" '==' "Darwin" ]; then
 
 		# Cask symlink directory
 		export HOMEBREW_CASK_OPTS="--appdir=/Applications"
+
+		# concatenate ssh config files
+		cat ~/.ssh/configs/*.config > ~/.ssh/config
 fi
 
 zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
