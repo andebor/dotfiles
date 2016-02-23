@@ -3,37 +3,25 @@
 # Script to install my everyday terminal dependencies and shell settings on a new mac
 
 #TODO:
-# Debian version
 # fix set hostname - complains about scutil check yosemite syntax
-# make echo look alike on both 10.9 and 10.10
 
+MAIN_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
-##########  DEFAULT INSTALL CONFIG  #############
+########## INSTALL CONFIG  #############
 
 #brew software to be installed
-BREWS="coreutils wget z caskroom/cask/brew-cask node gnu-sed go hg"
+BREWS=( `cat "$MAIN_DIR/setup/brews.txt" `)
 
 # pip packages to be installed
-PIPS="virtualenv setuptools autoenv"
+PIPS=( `cat "$MAIN_DIR/setup/pips.txt" `)
 
 #cask software to be installed
-CASKS="google-chrome google-drive dropbox alfred spotify sublime-text thunderbird slack iterm2 divvy caffeine deluge vlc" 
+CASKS=( `cat "$MAIN_DIR/setup/casks.txt" `)
 
 #files to symlink into homedir
 FILES="zshrc vimrc scripts"
 
 ##################################################
-
-MAIN_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-
-#check if user provided own config
-if [[ $1 == -c ]]; then
-    CONFIG_FILE=$2
-fi
-
-if [[ -f $CONFIG_FILE ]]; then
-    source $CONFIG_FILE
-fi
 
 # Colors
 red="\033[0;31m"
@@ -50,16 +38,16 @@ echo ""
 echo -e "This installation will install the following software:"
 echo -e "------------------------------------------------------"
 echo -e "Terminal apps/Homebrew/pip"
-for pip in $PIPS; do
+for pip in ${PIPS[@]}; do
     echo -e "-- "$pip
 done
 if [ "$(uname)" == "Darwin" ]; then
-    for brew in $BREWS; do
+    for brew in ${BREWS[@]}; do
         echo -e "-- "$brew
     done
     echo -e ""
     echo -e "Desktop applications (with cask)"
-    for cask in $CASKS; do
+    for cask in ${CASKS[@]}; do
         echo -e "-- "$cask
     done
 fi
@@ -110,7 +98,7 @@ if [ "$(uname)" == "Darwin" ]; then
 
     #Install homebrew packages
     echo "Verifying that all brew packages are installed.."
-    brew install ${BREWS}
+    brew install ${BREWS[@]}
     echo -e "${green}OK${NC}"
 
 		#Set option for cask, making sure app symlinks are put in /Applications
@@ -118,7 +106,7 @@ if [ "$(uname)" == "Darwin" ]; then
 
     #Install desktop software
     echo "Verifying that all cask packages are installed.."
-    brew cask install ${CASKS}
+    brew cask install ${CASKS[@]}
     echo -e "${green}OK${NC}"
 fi
 
@@ -213,7 +201,7 @@ fi
 
 #install pip packages
 echo "Verifying that all pip packages are installed."
-sudo pip install ${PIPS}
+sudo pip install ${PIPS[@]}
 echo -e "${green}OK${NC}"
 
 if [ "$(uname)" == "Darwin" ]; then

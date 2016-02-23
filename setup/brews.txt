@@ -1,0 +1,13 @@
+coreutils
+wget
+z
+caskroom/cask/brew-cask
+node
+gnu-sed
+go
+hg
+jq
+maven
+nmap
+kdiff3
+openssl

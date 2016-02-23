@@ -1,0 +1,17 @@
+google-chrome
+dropbox
+alfred
+spotify
+sublime-text
+slack
+iterm2
+caffeine
+deluge
+vlc
+dash
+firefox
+skype
+gimp
+istumbler
+tinygrab
+hipchat
