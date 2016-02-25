@@ -1,1 +1,1 @@
-export MAC_HOSTNAME='M-C02QN6FMG8WP'
+export MAC_HOSTNAME='Anders'
