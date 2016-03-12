@@ -289,6 +289,12 @@ if [[ ! -f ~/.vim/colors/solarized.vim ]]; then
     ln -s $MAIN_DIR/setup/solarized.vim ~/.vim/colors/solarized.vim
 fi
 
+# Set ut pbcopy listener on port 65432 for use with remote pbcopy
+if [[ ! -f ~/Library/LaunchAgents/pbcopy.plist ]]; then
+    cp $MAIN_DIR/setup/copy.plist ~/Library/LaunchAgents/pbcopy.plist
+		launchctl load ~/Library/LaunchAgents/pbcopy.plist
+fi
+
 if [ "$(uname)" == "Darwin" ]; then
     #Ask user for reboot
     echo "The computer needs to be rebooted before all the changes will take effect.${yellow}"
