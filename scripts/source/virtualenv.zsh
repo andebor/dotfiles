@@ -8,9 +8,17 @@ function makeenv() {
     
     #Check shell for to determine read syntax
     if [[ "$SHELL" == "/bin/zsh" ]]; then
-        read -q "response?Do you want to create a virtualenv inside this directory($WORKINGDIR)? (y/n)"
+      if [ $# -eq 1 ];then
+        read -q "response?Do you want to create a python2.7 virtualenv inside this directory($WORKINGDIR)? (y/n)"
+      else
+        read -q "response?Do you want to create a python3 virtualenv inside this directory($WORKINGDIR)? (y/n)"
+      fi
     else
-        read -p "Do you want to create a virtualenv inside this directory($WORKINGDIR)? (y/n)" -n 1 response
+      if [ $# -eq 1 ];then
+        read -p "Do you want to create a python2.7 virtualenv inside this directory($WORKINGDIR)? (y/n)" -n 1 response
+      else
+        read -p "Do you want to create a python3 virtualenv inside this directory($WORKINGDIR)? (y/n)" -n 1 response
+      fi
     fi
 
     echo ""
@@ -22,7 +30,13 @@ function makeenv() {
     #make enviroment
     # ENVNAME="env_$DIRNAME"
     # virtualenv $ENVNAME
-    virtualenv "env_$DIRNAME"
+    if [ $1 -eq 2 ];then
+      virtualenv -p python "env_$DIRNAME"
+    elif [ $1 -eq 3 ];then
+      virtualenv -p python3 "env_$DIRNAME"
+    else
+      virtualenv -p python3 "env_$DIRNAME"
+    fi
 
     # make .env file for autoenv
     echo "Creating .env file for autoenv.."
