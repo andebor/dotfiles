@@ -9,8 +9,8 @@ function deploy_key () {
 	if [[ ! -f $HOME/.ssh/id_rsa.pub ]]; then
 		ssh-keygen -t rsa -C post@andersborud.com
 	fi
-	if cat ~/.ssh/id_rsa.pub | ssh $1 " mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"; then
-			echo "Added rsa public key to authorized keys on $1."
+	if cat ~/.ssh/id_rsa.pub | ssh $@ " mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"; then
+			echo "Added rsa public key to authorized keys on remote host."
 	else
 			echo "Something went wrong. See error message above."
 	fi
