@@ -11,3 +11,10 @@ maven
 nmap
 kdiff3
 openssl
+watch
+ack
+azure-cli
+kubernetes-cli
+mitmproxy
+mtr
+sqlite

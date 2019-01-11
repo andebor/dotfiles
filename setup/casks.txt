@@ -1,5 +1,4 @@
 google-chrome
-dropbox
 alfred
 spotify
 sublime-text
@@ -8,10 +7,12 @@ iterm2
 caffeine
 deluge
 vlc
-dash
 firefox
-skype
-gimp
+skype-for-business
 istumbler
-tinygrab
-hipchat
+pycharm-ce
+docker
+1password
+1password-cli
+keybase
+divvy
