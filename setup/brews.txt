@@ -1,7 +1,6 @@
 coreutils
 wget
 z
-caskroom/cask/brew-cask
 node
 gnu-sed
 go

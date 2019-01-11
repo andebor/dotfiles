@@ -106,6 +106,7 @@ if [ "$(uname)" == "Darwin" ]; then
 
     #Install desktop software
     echo "Verifying that all cask packages are installed.."
+    brew tap caskroom/cask
     brew cask install ${CASKS[@]}
     echo -e "${green}OK${NC}"
 fi
@@ -250,6 +251,11 @@ if [ "$(uname)" == "Darwin" ]; then
     # Disable the all too sensitive backswipe in chrome
     defaults write com.google.Chrome AppleEnableSwipeNavigateWithScrolls -bool false
     defaults write com.google.Chrome.canary AppleEnableSwipeNavigateWithScrolls -bool false
+
+		# Increase cursor speed
+		#defaults write NSGlobalDomain KeyRepeat -int 2 (max is 0)
+		# should be one other setting for secondary slider in Preferences-->Keyboard
+		# might be InitialKeyRepeat http://superuser.com/questions/677665/increase-the-speed-at-which-the-delete-key-deletes-things-on-osx
 
     #Set colortheme in iterm2
     read -p "Do you want to change the color theme in iterm2 to Solarize? (y/n)" response </dev/tty
