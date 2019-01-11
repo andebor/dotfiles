@@ -16,3 +16,6 @@ docker
 1password-cli
 keybase
 divvy
+postman
+sonos
+webstorm
