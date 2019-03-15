@@ -84,9 +84,6 @@ fi
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 if [ "$(uname)" '==' "Darwin" ]; then
-    # source z
-    . `brew --prefix`/etc/profile.d/z.sh
-
 
     # dircolors
     eval `gdircolors ~/.scripts/.dir_colors`
@@ -115,7 +112,7 @@ if [ "$(uname)" '==' "Darwin" ]; then
 		export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 
 		# concatenate ssh config files
-		cat ~/.ssh/configs/*.config > ~/.ssh/config
+		#cat ~/.ssh/configs/*.config > ~/.ssh/config
 fi
 
 zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
@@ -136,4 +133,3 @@ done
 
 # source autoenv
 source /usr/local/bin/activate.sh
-
