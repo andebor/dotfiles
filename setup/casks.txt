@@ -8,7 +8,6 @@ caffeine
 deluge
 vlc
 firefox
-skype-for-business
 istumbler
 pycharm-ce
 docker
@@ -17,5 +16,7 @@ docker
 keybase
 divvy
 postman
-sonos
-webstorm
+goland
+microsoft-teams
+discord
+karabiner-elements

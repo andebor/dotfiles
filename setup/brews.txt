@@ -4,7 +4,6 @@ z
 node
 gnu-sed
 go
-hg
 jq
 maven
 nmap
