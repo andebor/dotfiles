@@ -77,7 +77,7 @@ if [ "$(uname)" == "Darwin" ]; then
     echo "Checking if Homebrew is installed.."
     if ! which brew > /dev/null; then
         echo -e "${yellow}Homebrew not installed. Installing now..."
-        ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
         echo -e "Running brew doctor...${NC}"
         brew doctor
         echo -e "${green}OK${NC}"
