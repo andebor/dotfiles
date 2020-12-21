@@ -13,7 +13,7 @@ Choose install and agree to the terms.
 Then:
 
 ```
-git clone git@github.com:andebor/dotfiles.git
+git clone https://github.com/andebor/dotfiles.git 
 ```
 
 ```
