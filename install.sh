@@ -70,17 +70,6 @@ echo -e "${yellow}You might need to input your sudo password${NC}"
 sudo -v
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
-# Change hostname
-# read -p "Would you like to set your computer name (as done via System Preferences >> Sharing)?  (y/n)" response
-# if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]; then
-#   echo "What would you like it to be?"
-#   read COMPUTER_NAME
-#   sudo scutil --set ComputerName $COMPUTER_NAME
-#   sudo scutil --set HostName $COMPUTER_NAME
-#   sudo scutil --set LocalHostName $COMPUTER_NAME
-#   sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string $COMPUTER_NAME
-#   echo -e "${green}Computer name was changed to $COMPUTER_NAME${NC}"
-# fi
 
 if [ "$(uname)" == "Darwin" ]; then
 
@@ -88,7 +77,7 @@ if [ "$(uname)" == "Darwin" ]; then
     echo "Checking if Homebrew is installed.."
     if ! which brew > /dev/null; then
         echo -e "${yellow}Homebrew not installed. Installing now..."
-        ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+        ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
         echo -e "Running brew doctor...${NC}"
         brew doctor
         echo -e "${green}OK${NC}"
@@ -101,14 +90,23 @@ if [ "$(uname)" == "Darwin" ]; then
     brew install ${BREWS[@]}
     echo -e "${green}OK${NC}"
 
-		#Set option for cask, making sure app symlinks are put in /Applications
-		export HOMEBREW_CASK_OPTS="--appdir=/Applications"
-
     #Install desktop software
     echo "Verifying that all cask packages are installed.."
-    brew tap caskroom/cask
-    brew cask install ${CASKS[@]}
+    brew install --cask ${CASKS[@]}
     echo -e "${green}OK${NC}"
+
+    # Change hostname
+    read -p "Would you like to set your computer name (as done via System Preferences >> Sharing)?  (y/n)" response
+    if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]; then
+      echo "What would you like it to be?"
+      read COMPUTER_NAME
+      sudo scutil --set ComputerName $COMPUTER_NAME
+      sudo scutil --set HostName $COMPUTER_NAME
+      sudo scutil --set LocalHostName $COMPUTER_NAME
+      sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string $COMPUTER_NAME
+      echo -e "${green}Computer name was changed to $COMPUTER_NAME${NC}"
+    fi
+
 fi
 
 if [ "$(uname)" == "Linux" ]; then
@@ -210,11 +208,22 @@ if [ "$(uname)" == "Darwin" ]; then
     # Do OS X modifications
     echo "Doing OS X modifications"
 
+    # Set dock position and size
+    defaults write com.apple.dock orientation -string bottom
+    defaults write com.apple.dock tilesize -int 36
+    defaults write com.apple.dock autohide -bool true
+    killall Dock
+
+    # No iCloud documents please
+    defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
+
+    # Show hidden files
+    defaults write com.apple.Finder AppleShowAllFiles -bool true
+
     # Display full POSIX path as Finder window title
     defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
 
     # Finder: allow text selection in Quick Look
-    defaults write com.apple.finder QLEnableTextSelection -bool true
 
     # Finder: show all filename extensions
     defaults write NSGlobalDomain AppleShowAllExtensions -bool true
