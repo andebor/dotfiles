@@ -33,9 +33,9 @@ function makeenv() {
     if [[ $1 -eq 2 ]];then
       virtualenv -p python "env_$DIRNAME"
     elif [[ $1 -eq 3 ]];then
-      virtualenv -p python3 "env_$DIRNAME"
+      python3 -m venv "env_$DIRNAME"
     else
-      virtualenv -p python3 "env_$DIRNAME"
+      python3 -m venv "env_$DIRNAME"
     fi
 
     # make .env file for autoenv
