@@ -1,3 +1,4 @@
+#zmodload zsh/zprof # for debugging
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 
@@ -68,20 +69,6 @@ else
   export EDITOR='vim'
 fi
 
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
 
 if [ "$(uname)" '==' "Darwin" ]; then
 
@@ -90,41 +77,28 @@ if [ "$(uname)" '==' "Darwin" ]; then
     alias ls='gls --color'
 
     #GNU-sed on os x
-    export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
-    MANPATH="/usr/local/opt/gnu-sed/libexec/gnuman:$MANPATH"
+    export PATH="$(brew --prefix)/opt/gnu-sed/libexec/gnubin:$PATH"
+    export MANPATH="$(brew --prefix)/opt/gnu-sed/libexec/gnuman:$MANPATH"
 
     # go path
     export PATH=$PATH:/usr/local/opt/go/libexec/bin
-    export GOPATH=$HOME/Google_Drive/web-dev/go
-
-		# garmin connect iq
-		export PATH=$PATH:/$HOME/dev/connectiq-sdk-mac-1.1.3/bin
+    export GOPATH=$HOME/go
+    export PATH=$PATH:$GOPATH/bin
 
     export LC_CTYPE="UTF-8"
 
-		# Docker
-		#eval "$(docker-machine env default)"
+    # scripts that should be i path
+    export PATH=$HOME/dotfiles/scripts/path:$PATH
 
-		#send_sms i path
-		export PATH=$HOME/dotfiles/scripts/path:$PATH
 
-		# Cask symlink directory
-		export HOMEBREW_CASK_OPTS="--appdir=/Applications"
-
-		# concatenate ssh config files
-		#cat ~/.ssh/configs/*.config > ~/.ssh/config
+    # concatenate ssh config files
+    #cat ~/.ssh/configs/*.config > ~/.ssh/config
 fi
 
 zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
 autoload -Uz compinit
 compinit
 
-# source host_variables and tell user if the file is missing.
-if [[ ! -f ~/.host_variables ]]; then
-    echo -e "\033[0;31mMissing host_variables file! Please provide this file before using aliases!\033[0m"
-else
-    source ~/.host_variables
-fi
 
 # source scripts in dotfiles
 for file in ~/.scripts/source/*; do
@@ -133,3 +107,4 @@ done
 
 # source autoenv
 source /usr/local/bin/activate.sh
+#zprof # for debugging
