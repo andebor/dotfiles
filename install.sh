@@ -23,6 +23,15 @@ FILES="zshrc vimrc scripts"
 
 ##################################################
 
+exit_on_error() {
+    exit_code=$1
+    last_command=${@:2}
+    if [ $exit_code -ne 0 ]; then
+        >&2 echo "\"${last_command}\" command failed with exit code ${exit_code}."
+        exit $exit_code
+    fi
+}
+
 # Colors
 red="\033[0;31m"
 yellow="\033[0;33m"
@@ -78,8 +87,10 @@ if [ "$(uname)" == "Darwin" ]; then
     if ! which brew > /dev/null; then
         echo -e "${yellow}Homebrew not installed. Installing now..."
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        exit_on_error $?
         echo -e "Running brew doctor...${NC}"
         brew doctor
+        exit_on_error $?
         echo -e "${green}OK${NC}"
     else
         echo -e "${green}Homebrew is already installed.${NC}"
@@ -115,6 +126,7 @@ if [ "$(uname)" == "Linux" ]; then
     if ! which curl > /dev/null; then
     	echo -e "${yellow}Curl not installed. Installing now...${NC}"
     	sudo apt-get -y install curl
+        exit_on_error $?
     	echo -e "${green}OK${NC}"
     else
     	echo -e "${green}Curl is already installed.${NC}"
@@ -125,6 +137,7 @@ if [ "$(uname)" == "Linux" ]; then
     if ! which zsh > /dev/null; then
         echo -e "${yellow}ZSH not installed. Installing now...${NC}"
         sudo apt-get -y install zsh
+        exit_on_error $?
         echo -e "${green}OK${NC}"
     else
         echo -e "${green}ZSH is already installed.${NC}"
@@ -136,6 +149,7 @@ echo -e "${yellow}Checking if oh-my-zsh is installed.. ${NC}"
 if [ ! -d ~/.oh-my-zsh ]; then
     echo -e "${yellow}Oh-My-Zsh not installed. Installing now...${NC}"
     curl -L http://install.ohmyz.sh | sh
+    exit_on_error $?
     echo -e "${green}OK${NC}"
 else
     echo -e "${yellow}Oh-My-Zsh is already installed.${NC}"
@@ -146,6 +160,7 @@ echo -e "${yellow}Checking if syntax highlighting is installed.."
 if [ ! -d ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting ]; then
     echo -e "Syntax highlighting not installed. Installing now...${NC}"
     cd ~/.oh-my-zsh/custom/plugins && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git 
+    exit_on_error $?
     cd $MAIN_DIR
     echo -e "${green}OK${NC}"
 
@@ -158,6 +173,7 @@ echo -e "${yellow}Checking if virtualenv-prompt is installed.."
 if [ ! -d ~/.oh-my-zsh/custom/plugins/oh-my-zsh-virtualenv-prompt ]; then
     echo -e "virtualenv-prompt not installed. Installing now...${NC}"
     cd ~/.oh-my-zsh/custom/plugins && git clone https://github.com/tonyseek/oh-my-zsh-virtualenv-prompt.git virtualenv-prompt
+    exit_on_error $?
     cd $MAIN_DIR
     echo -e "${green}OK${NC}"
 
@@ -183,6 +199,7 @@ fi
 echo -e "Creating symbolic link for environment variables"
 if [ ! -f ~/.oh-my-zsh/custom/variables.zsh ]; then
 	ln -s $MAIN_DIR/setup/variables.zsh ~/.oh-my-zsh/custom/variables.zsh
+    exit_on_error $?
   echo -e "${green}OK${NC}"
 fi
 
@@ -191,8 +208,10 @@ echo "Checking if Pip is installed.."
 if ! which pip > /dev/null; then
     echo -e "${yellow}Pip not installed. Installing now...${NC}"
     curl -O  https://bootstrap.pypa.io/get-pip.py
-		sudo python get-pip.py
-		rm get-pip.py
+    exit_on_error $?
+	sudo python3 get-pip.py
+    exit_on_error $?
+	rm get-pip.py
     echo -e "${green}OK${NC}"
 else
     echo -e "${green}Pip is already installed.${NC}"
