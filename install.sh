@@ -170,7 +170,7 @@ fi
 
 # virtualenv prompt plugin
 echo -e "${yellow}Checking if virtualenv-prompt is installed.."
-if [ ! -d ~/.oh-my-zsh/custom/plugins/oh-my-zsh-virtualenv-prompt ]; then
+if [ ! -d ~/.oh-my-zsh/custom/plugins/virtualenv-prompt ]; then
     echo -e "virtualenv-prompt not installed. Installing now...${NC}"
     cd ~/.oh-my-zsh/custom/plugins && git clone https://github.com/tonyseek/oh-my-zsh-virtualenv-prompt.git virtualenv-prompt
     exit_on_error $?
@@ -321,12 +321,6 @@ fi
 if [[ ! -f ~/.vim/colors/solarized.vim ]]; then
     mkdir -p ~/.vim/colors/
     ln -s $MAIN_DIR/setup/solarized.vim ~/.vim/colors/solarized.vim
-fi
-
-# Set ut pbcopy listener on port 65432 for use with remote pbcopy
-if [[ ! -f ~/Library/LaunchAgents/pbcopy.plist ]]; then
-    cp $MAIN_DIR/setup/copy.plist ~/Library/LaunchAgents/pbcopy.plist
-		launchctl load ~/Library/LaunchAgents/pbcopy.plist
 fi
 
 if [ "$(uname)" == "Darwin" ]; then
