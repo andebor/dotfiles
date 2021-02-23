@@ -16,3 +16,4 @@ kubernetes-cli
 mitmproxy
 mtr
 sqlite
+awscli
