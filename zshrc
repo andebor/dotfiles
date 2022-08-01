@@ -90,6 +90,9 @@ if [ "$(uname)" '==' "Darwin" ]; then
     # scripts that should be i path
     export PATH=$HOME/dotfiles/scripts/path:$PATH
 
+    # ruby path
+    export PATH="/usr/local/opt/ruby/bin:/usr/local/lib/ruby/gems/3.0.0/bin:$PATH"
+    export PATH="$HOME/.local/share/gem/ruby/3.0.0/bin:$PATH"
 
     # concatenate ssh config files
     #cat ~/.ssh/configs/*.config > ~/.ssh/config
