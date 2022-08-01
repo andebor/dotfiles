@@ -82,6 +82,12 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 if [ "$(uname)" == "Darwin" ]; then
 
+    if [ "$(uname -m)" == "arm64" ]; then
+        echo -e "${yellow}Apple Silicon mac detected. Installing rosetta.."
+        sudo softwareupdate --install-rosetta
+        echo -e "${green}Rosetta installed${NC}"
+    fi
+
     #Install homebrew
     echo "Checking if Homebrew is installed.."
     if ! which brew > /dev/null; then
