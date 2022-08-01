@@ -103,8 +103,10 @@ if [ "$(uname)" == "Darwin" ]; then
 
     #Install desktop software
     echo "Verifying that all cask packages are installed.."
-    brew install --cask ${CASKS[@]}
-    echo -e "${green}OK${NC}"
+    for cask in ${CASKS[@]}; do
+        brew install --cask $cask
+    done
+    echo -e "${green}Finished installing casks${NC}"
 
     # Change hostname
     read -p "Would you like to set your computer name (as done via System Preferences >> Sharing)?  (y/n)" response
