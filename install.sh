@@ -98,6 +98,9 @@ if [ "$(uname)" == "Darwin" ]; then
         brew doctor
         exit_on_error $?
         echo -e "${green}OK${NC}"
+
+        # Add new brew path to PATH for Apple silicon
+        export PATH=/opt/homebrew/bin:$PATH
     else
         echo -e "${green}Homebrew is already installed.${NC}"
     fi
@@ -294,16 +297,16 @@ if [ "$(uname)" == "Darwin" ]; then
 		# might be InitialKeyRepeat http://superuser.com/questions/677665/increase-the-speed-at-which-the-delete-key-deletes-things-on-osx
 
     #Set colortheme in iterm2
-    read -p "Do you want to change the color theme in iterm2 to Solarize? (y/n)" response </dev/tty
-    if [[  $response =~ ^([yY][eE][sS]|[yY])$ ]]; then
-        if [[ -f ~/Library/Preferences/com.googlecode.iterm2.plist ]]; then
-            mv ~/Library/Preferences/com.googlecode.iterm2.plist ~/Library/Preferences/com.googlecode.iterm2.plist.old
-        fi    
-        cp $MAIN_DIR/setup/com.googlecode.iterm2.plist ~/Library/Preferences/com.googlecode.iterm2.plist
-        plutil -convert binary1 ~/Library/Preferences/com.googlecode.iterm2.plist
-        defaults read com.googlecode.iterm2
-        echo -e "${green}iTerm2 is now solarized!${NC}"
-    fi
+    # read -p "Do you want to change the color theme in iterm2 to Solarize? (y/n)" response </dev/tty
+    # if [[  $response =~ ^([yY][eE][sS]|[yY])$ ]]; then
+    #     if [[ -f ~/Library/Preferences/com.googlecode.iterm2.plist ]]; then
+    #         mv ~/Library/Preferences/com.googlecode.iterm2.plist ~/Library/Preferences/com.googlecode.iterm2.plist.old
+    #     fi    
+    #     cp $MAIN_DIR/setup/com.googlecode.iterm2.plist ~/Library/Preferences/com.googlecode.iterm2.plist
+    #     plutil -convert binary1 ~/Library/Preferences/com.googlecode.iterm2.plist
+    #     defaults read com.googlecode.iterm2
+    #     echo -e "${green}iTerm2 is now solarized!${NC}"
+    # fi
 fi
 
 # Make symlinks for zshrc, dircolors
@@ -326,10 +329,10 @@ if [[ ! -f ~/.host_variables ]]; then
 fi
 
 # symlink solarized vim theme
-if [[ ! -f ~/.vim/colors/solarized.vim ]]; then
-    mkdir -p ~/.vim/colors/
-    ln -s $MAIN_DIR/setup/solarized.vim ~/.vim/colors/solarized.vim
-fi
+# if [[ ! -f ~/.vim/colors/solarized.vim ]]; then
+#     mkdir -p ~/.vim/colors/
+#     ln -s $MAIN_DIR/setup/solarized.vim ~/.vim/colors/solarized.vim
+# fi
 
 if [ "$(uname)" == "Darwin" ]; then
     #Ask user for reboot
