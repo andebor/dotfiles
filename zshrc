@@ -47,9 +47,9 @@ ENABLE_CORRECTION="false"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 if [ "$(uname)" '==' "Darwin" ]; then
-    plugins=(brew django git npm pip python screen sublime sudo jump virtualenv-prompt zsh-syntax-highlighting)
+    plugins=(brew git npm pip python sublime sudo virtualenv-prompt zsh-syntax-highlighting)
 else
-    plugins=(django git npm pip python screen sudo jump virtualenv-prompt zsh-syntax-highlighting)
+    plugins=(git npm pip python sudo virtualenv-prompt zsh-syntax-highlighting)
 fi
 # User configuration
 
@@ -96,6 +96,13 @@ if [ "$(uname)" '==' "Darwin" ]; then
 
     # concatenate ssh config files
     #cat ~/.ssh/configs/*.config > ~/.ssh/config
+    PATH="$(bash --norc -ec 'IFS=:; paths=($PATH);
+    for i in ${!paths[@]}; do
+    if [[ ${paths[i]} == "''/Users/andebor/.pyenv/shims''" ]]; then unset '\''paths[i]'\'';
+    fi; done;
+    echo "${paths[*]}"')"
+    export PATH="/Users/andebor/.pyenv/shims:${PATH}"
+    command pyenv rehash 2>/dev/null
 fi
 
 zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
@@ -111,3 +118,5 @@ done
 # source autoenv
 source /usr/local/bin/activate.sh
 #zprof # for debugging
+
+export GPG_TTY=$(tty)
