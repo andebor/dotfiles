@@ -5,7 +5,7 @@ set nu
 
 " colors
 set background=dark
-colorscheme solarized
+" colorscheme solarized
 
 " Identation
 set autoindent

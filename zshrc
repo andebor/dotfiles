@@ -103,6 +103,9 @@ if [ "$(uname)" '==' "Darwin" ]; then
     echo "${paths[*]}"')"
     export PATH="/Users/andebor/.pyenv/shims:${PATH}"
     command pyenv rehash 2>/dev/null
+
+    # claude
+    export PATH="$HOME/.local/bin:$PATH"
 fi
 
 zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
@@ -116,7 +119,7 @@ for file in ~/.scripts/source/*; do
 done
 
 # source autoenv
-source /usr/local/bin/activate.sh
+source /opt/homebrew/opt/autoenv/activate.sh
 #zprof # for debugging
 
 export GPG_TTY=$(tty)

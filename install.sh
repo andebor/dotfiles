@@ -94,6 +94,10 @@ if [ "$(uname)" == "Darwin" ]; then
         echo -e "${yellow}Homebrew not installed. Installing now..."
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
         exit_on_error $?
+        echo >> $HOME/.zprofile
+        echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> $HOME/.zprofile
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+
         echo -e "Running brew doctor...${NC}"
         brew doctor
         exit_on_error $?
