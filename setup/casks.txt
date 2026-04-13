@@ -8,13 +8,11 @@ vlc
 firefox
 istumbler
 pycharm
-datagrip
 docker
 1password
 1password-cli
 keybase
 postman
-goland
 discord
 microsoft-teams
 microsoft-auto-update
@@ -24,8 +22,6 @@ microsoft-powerpoint
 microsoft-outlook
 autodesk-fusion
 visual-studio-code
-messenger
 raycast
 bambu-studio
-datagrip
 home-assistant
