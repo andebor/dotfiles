@@ -6,7 +6,6 @@ iterm2
 caffeine
 vlc
 firefox
-istumbler
 pycharm
 docker
 1password
